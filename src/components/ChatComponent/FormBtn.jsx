@@ -1,8 +1,9 @@
 import React from 'react'
+import { StyledFormBtn } from '../../styles/ChatComponent/FormBtn'
 
-const FormBtn = () => {
+const FormBtn = ({ formikConfig }) => {
   return (
-    <div>FormBtn</div>
+    <StyledFormBtn onClick={formikConfig.handleSubmit} type='button'>Iniciar</StyledFormBtn>
   )
 }
 
