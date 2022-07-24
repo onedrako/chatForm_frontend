@@ -3,16 +3,15 @@ import { StyledForm } from '../../styles/ChatComponent/Form'
 import { StyledFormComponent, StyledImg } from '../../styles/ChatComponent/FormComponent'
 import { InputItem } from './InputItem'
 
-const FormComponent = () => {
+const FormComponent = ({ dataSection, inputs }) => {
   return (
     <StyledFormComponent>
       <StyledImg src='https://cdn-icons-png.flaticon.com/512/773/773330.png' alt='bot-image' />
       <StyledForm>
-        <h3>¿Cual es tu nombre?</h3>
-        <InputItem />
-        <InputItem />
-        <InputItem />
-        <InputItem />
+        <h3>{dataSection}</h3>
+        {inputs?.map((input) => {
+          return <InputItem key={input} labelTitle={input} />
+        })}
       </StyledForm>
     </StyledFormComponent>
   )

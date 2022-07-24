@@ -3,7 +3,7 @@ import { StyledChatInput } from '../../styles/ChatComponent/InputItem'
 
 const InputItem = ({ labelTitle }) => {
   return (
-    <StyledChatInput />
+    <StyledChatInput placeholder={labelTitle} />
   )
 }
 
