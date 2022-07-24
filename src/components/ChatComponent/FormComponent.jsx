@@ -2,7 +2,7 @@ import React from 'react'
 import { StyledInputsContainer } from '../../styles/ChatComponent/InputsContainer'
 import { StyledFormComponent, StyledImg } from '../../styles/ChatComponent/FormComponent'
 // import { InputItem } from './InputItem'
-import { StyledChatInput } from '../../styles/ChatComponent/InputItem'
+import { ChatInput, InputError } from '../../styles/ChatComponent/ChatInput'
 
 const FormComponent = ({ dataSection, inputs, type, formikConfig }) => {
   return (
@@ -12,14 +12,20 @@ const FormComponent = ({ dataSection, inputs, type, formikConfig }) => {
         <h3>{dataSection}</h3>
         {inputs?.map((input) => {
           return (
-            <StyledChatInput
-              key={input.placeholder}
-              placeholder={input.placeholder}
-              type={input.inputType}
-              min={input.min}
-              max={input.max}
-              {...formikConfig.getFieldProps(input.fieldName)}
-            />
+            <div key={input.placeholder}>
+              <ChatInput
+                placeholder={input.placeholder}
+                type={input.inputType}
+                min={input.min}
+                max={input.max}
+                error={formikConfig.errors[input.placeholder]}
+                {...formikConfig.getFieldProps(input.fieldName)}
+              />
+              {formikConfig.touched[input.fieldName] && formikConfig.errors[input.fieldName] && (
+                <InputError>{formikConfig.errors[input.fieldName]}</InputError>
+              )}
+
+            </div>
           )
         })}
       </StyledInputsContainer>

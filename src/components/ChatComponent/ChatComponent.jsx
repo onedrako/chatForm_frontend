@@ -1,5 +1,6 @@
 import { useFormik } from 'formik'
 import React from 'react'
+import * as Yup from 'yup'
 import { StyledForm } from '../../styles/ChatComponent/ChatComponent'
 import { FormBtn } from './FormBtn'
 import { FormComponent } from './FormComponent'
@@ -12,9 +13,9 @@ const ChatComponent = () => {
     { placeholder: 'Apellido Materno', inputType: 'text', fieldName: 'maternalSurname' }]
 
   const dateOfBirth = [
-    { placeholder: 'Dia', inputType: 'number', min: 1, max: 31, fieldName: 'day' },
-    { placeholder: 'Mes', inputType: 'number', min: 1, max: 12, fieldName: 'month' },
-    { placeholder: 'Año', inputType: 'number', min: 1900, max: 2022, fieldName: 'year' }
+    { placeholder: 'Dia: 25', inputType: 'number', min: 1, max: 31, fieldName: 'day' },
+    { placeholder: 'Mes: 01', inputType: 'number', min: 1, max: 12, fieldName: 'month' },
+    { placeholder: 'Año: 1999', inputType: 'number', min: 1900, max: 2022, fieldName: 'year' }
   ]
   const contactData = [{ placeholder: 'Correo Electrónico', type: 'email', fieldName: 'email' }, { placeholder: 'Teléfono Celular', inputType: 'number', fieldName: 'phone' }]
 
@@ -32,13 +33,24 @@ const ChatComponent = () => {
     },
     onSubmit: values => {
       console.log(values)
-    }
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required('El nombre es requerido'),
+      secondName: Yup.string().required('El segundo nombre es requerido'),
+      paternalSurname: Yup.string().required('El apellido paterno es requerido'),
+      maternalSurname: Yup.string().required('El apellido materno es requerido'),
+      year: Yup.number().required('El año es requerido').min(1900, 'El año debe ser mayor a 1900').max(2022, 'El año debe ser menor a 2022'),
+      month: Yup.number().required('El mes es requerido').min(1).max(12),
+      day: Yup.number().required('El dia es requerido').min(1).max(31),
+      email: Yup.string().required('El correo electrónico es requerido').email('El correo electrónico no es válido'),
+      phone: Yup.number().required('El teléfono celular es requerido')
+    })
   })
 
   return (
     <>
       <StyledForm onSubmit={formik.handleChange}>
-        <FormComponent dataSection='¿Cuál es tu nombre?' inputs={personalData} type='name' formikConfig={formik} />
+        <FormComponent dataSection='¿Cuál es tu nombre?' inputs={personalData} type='name' formikConfig={formik} errors={formik.erorrs} />
         <FormComponent dataSection='¿Cuál es tu fecha de nacimiento?' inputs={dateOfBirth} type='date' formikConfig={formik} />
         <FormComponent dataSection='Datos de Contacto' inputs={contactData} type='contact' formikConfig={formik} />
         <FormBtn type='submit' formikConfig={formik} />

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const StyledChatInput = styled.input`
+export const ChatInput = styled.input`
   margin-bottom: 10px;
   height: 40px;
   background: inherit;
@@ -8,4 +8,11 @@ export const StyledChatInput = styled.input`
   padding: 0 5px; 
   border: 2px solid #c6c6c6;
   border-radius: 5px;
+  width: 100%;
+`
+
+export const InputError = styled.div`
+  color: red;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 `
