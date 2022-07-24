@@ -6,17 +6,17 @@ import { FormComponent } from './FormComponent'
 
 const ChatComponent = () => {
   const personalData = [
-    { placeholder: 'Nombre', inputType: 'text' },
-    { placeholder: 'Segundo Nombre', inputType: 'text' },
-    { placeholder: 'Apellido Paterno', inputType: 'text' },
-    { placeholder: 'Apellido Materno', inputType: 'text' }]
+    { placeholder: 'Nombre', inputType: 'text', fieldName: 'name' },
+    { placeholder: 'Segundo Nombre', inputType: 'text', fieldName: 'secondName' },
+    { placeholder: 'Apellido Paterno', inputType: 'text', fieldName: 'paternalSurname' },
+    { placeholder: 'Apellido Materno', inputType: 'text', fieldName: 'maternalSurname' }]
 
   const dateOfBirth = [
-    { placeholder: 'Dia', inputType: 'number', min: 1, max: 31 },
-    { placeholder: 'Mes', inputType: 'number', min: 1, max: 12 },
-    { placeholder: 'Año', inputType: 'number', min: 1900, max: 2022 }
+    { placeholder: 'Dia', inputType: 'number', min: 1, max: 31, fieldName: 'day' },
+    { placeholder: 'Mes', inputType: 'number', min: 1, max: 12, fieldName: 'month' },
+    { placeholder: 'Año', inputType: 'number', min: 1900, max: 2022, fieldName: 'year' }
   ]
-  const contactData = [{ placeholder: 'Correo Electrónico', type: 'email' }, { placeholder: 'Teléfono Celular', inputType: 'number' }]
+  const contactData = [{ placeholder: 'Correo Electrónico', type: 'email', fieldName: 'email' }, { placeholder: 'Teléfono Celular', inputType: 'number', fieldName: 'phone' }]
 
   const formik = useFormik({
     initialValues: {
@@ -24,7 +24,7 @@ const ChatComponent = () => {
       secondName: '',
       paternalSurname: '',
       maternalSurname: '',
-      date: '',
+      day: '',
       month: '',
       year: '',
       email: '',
