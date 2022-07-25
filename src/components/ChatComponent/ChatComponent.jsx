@@ -41,6 +41,7 @@ const ChatComponent = () => {
       const safeData = safeHTML(preparedData)
       try {
         await service.postUser(safeData)
+        setSuccessfullySent(true)
       } catch (err) {
         setError(true)
         window.scroll({
@@ -51,7 +52,6 @@ const ChatComponent = () => {
         return
       }
       setSuccessfullySent(true)
-      console.log('send data', safeData)
     },
     validationSchema: Yup.object({
       name: Yup.string().required('El nombre es requerido'),
@@ -90,7 +90,7 @@ const ChatComponent = () => {
           {Object.keys(formik.errors).length === 0 && formik.values.name &&
             <ConfirmPreview>Si tus datos son correctos por favor continuemos</ConfirmPreview>}
 
-          <FormBtn type='submit' formikConfig={formik} />
+          <FormBtn action={formik.handleSubmit} text='Iniciar' />
 
           {Object.keys(formik.errors).length === 0 && formik.values.name &&
             <CompleteInfo>
@@ -100,14 +100,24 @@ const ChatComponent = () => {
               <p>{`Nombre: ${formik.values.name} ${formik.values.secondName} ${formik.values.paternalSurname} ${formik.values.maternalSurname}`}</p>
             </CompleteInfo>}
 
-          <FormComponent dataSection='Tu registro ha sido exitoso :D' />
-
         </Form>
       </>
     )
-  } else {
+  }
+
+  if (successfullySent) {
     return (
-      <FormComponent dataSection='Registro Exitoso' />
+      <Form>
+        <FormComponent dataSection='Muchas gracias, tú registro ha sido exitoso :D' />
+        <FormBtn
+          action={() => {
+            setError(false)
+            formik.resetForm()
+            setSuccessfullySent(false)
+          }}
+          text='Comenzar nuevo registro'
+        />
+      </Form>
     )
   }
 }
