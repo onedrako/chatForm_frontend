@@ -1,6 +1,6 @@
 {
 	"version": 2,
-	"name": "onedrako",
+	"name": "rocket_code_test",
 	"builds": [
 		{
 			"use": "@vercel/static-build",
