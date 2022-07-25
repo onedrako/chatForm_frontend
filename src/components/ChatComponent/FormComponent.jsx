@@ -24,12 +24,10 @@ const FormComponent = ({ dataSection, inputs, type, formikConfig }) => {
               {formikConfig.touched[input.fieldName] && formikConfig.errors[input.fieldName] && (
                 <InputError>{formikConfig.errors[input.fieldName]}</InputError>
               )}
-
             </div>
           )
         })}
       </StyledInputsContainer>
-      <div>Hola mundo</div>
     </StyledFormComponent>
   )
 }
