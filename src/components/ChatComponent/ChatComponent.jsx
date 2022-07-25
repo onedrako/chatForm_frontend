@@ -1,25 +1,26 @@
+// Dependencies
 import { useFormik } from 'formik'
 import React from 'react'
 import * as Yup from 'yup'
-import { CompleteInfo, ConfirmPreview, Form, PreviewInfo } from '../../styles/ChatComponent/ChatComponent'
+
+// Utils
 import { calculateDays } from '../../utils/calculateDays'
 import { months } from '../../utils/months'
-import { FormBtn } from './FormBtn'
+import { safeHTML } from '../../utils/sanitizeObject'
+import { personalData, contactData, dateOfBirth } from '../../utils/inputsConstants'
+
+// Services
+import Users from '../../services/users.service'
+
+// Components
 import { FormComponent } from './FormComponent'
+import { FormBtn } from './FormBtn'
+
+// StyledComponents
+import { CompleteInfo, ConfirmPreview, Form, PreviewInfo } from '../../styles/ChatComponent/ChatComponent'
 
 const ChatComponent = () => {
-  const personalData = [
-    { placeholder: 'Nombre', inputType: 'text', fieldName: 'name' },
-    { placeholder: 'Segundo Nombre', inputType: 'text', fieldName: 'secondName' },
-    { placeholder: 'Apellido Paterno', inputType: 'text', fieldName: 'paternalSurname' },
-    { placeholder: 'Apellido Materno', inputType: 'text', fieldName: 'maternalSurname' }]
-
-  const dateOfBirth = [
-    { placeholder: 'Dia: 25', inputType: 'number', min: 1, max: 31, fieldName: 'day' },
-    { placeholder: 'Mes: 01', inputType: 'number', min: 1, max: 12, fieldName: 'month' },
-    { placeholder: 'Año: 1999', inputType: 'number', min: 1900, max: 2022, fieldName: 'year' }
-  ]
-  const contactData = [{ placeholder: 'Correo Electrónico', type: 'email', fieldName: 'email' }, { placeholder: 'Teléfono Celular', inputType: 'number', fieldName: 'phone' }]
+  const service = new Users()
 
   const formik = useFormik({
     initialValues: {
@@ -34,7 +35,10 @@ const ChatComponent = () => {
       phone: ''
     },
     onSubmit: values => {
-      console.log(values)
+      const preparedData = service.prepareUserData(values)
+      const safeData = safeHTML(preparedData)
+      service.postUser(safeData)
+      console.log('send data', safeData)
     },
     validationSchema: Yup.object({
       name: Yup.string().required('El nombre es requerido'),
@@ -48,8 +52,6 @@ const ChatComponent = () => {
       phone: Yup.number().test('len', 'Ingresa un número de teléfono valido (10 dígitos)', val => val && val.toString().length === 10)
     })
   })
-
-  console.log(process.env.API_URL)
 
   return (
     <>

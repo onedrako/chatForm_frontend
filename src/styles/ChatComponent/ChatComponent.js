@@ -4,7 +4,8 @@ export const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
-  `
+  align-items: end;
+`
 
 export const PreviewInfo = styled.p`
   display: flex;

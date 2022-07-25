@@ -1,6 +1,7 @@
 const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   entry: './src/index.js',
@@ -35,6 +36,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new Dotenv(),
     new HTMLWebpackPlugin({
       template: './public/index.html',
       filename: './index.html'
