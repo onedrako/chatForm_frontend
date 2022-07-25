@@ -4,7 +4,7 @@ import { StyledFormComponent, StyledImg } from '../../styles/ChatComponent/FormC
 // import { InputItem } from './InputItem'
 import { ChatInput, InputError } from '../../styles/ChatComponent/ChatInput'
 
-const FormComponent = ({ dataSection, inputs, type, formikConfig }) => {
+const FormComponent = ({ dataSection, inputs, formikConfig }) => {
   return (
     <StyledFormComponent>
       <StyledImg src='https://cdn-icons-png.flaticon.com/512/773/773330.png' alt='bot-image' />

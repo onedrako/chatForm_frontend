@@ -9,4 +9,10 @@ export const StyledFormBtn = styled.button`
     color: #fff;
     border: none;
     border-radius: 10px;
+    cursor: pointer;
+
+    @media (min-width: 600px) {
+      max-width: 415px;
+      margin: 0 15px 15px auto;
+    }
   `

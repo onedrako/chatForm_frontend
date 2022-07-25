@@ -4,12 +4,8 @@ import axios from 'axios'
 // const apiUrl = config.apiUrl
 
 class Users {
-  postUser (data) {
-    axios.post('http://localhost:3000/api/v1/users/', data)
-  }
-
-  getUser () {
-    return console.log('getUser')
+  async postUser (data) {
+    await axios.post('http://localhost:3000/api/v1/users/', data)
   }
 
   prepareUserData (data) {

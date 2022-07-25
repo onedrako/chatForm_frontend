@@ -1,6 +1,6 @@
 // Dependencies
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
-import React from 'react'
 import * as Yup from 'yup'
 
 // Utils
@@ -17,9 +17,11 @@ import { FormComponent } from './FormComponent'
 import { FormBtn } from './FormBtn'
 
 // StyledComponents
-import { CompleteInfo, ConfirmPreview, Form, PreviewInfo } from '../../styles/ChatComponent/ChatComponent'
+import { CompleteInfo, ConfirmPreview, DbErrorMessage, Form, PreviewInfo } from '../../styles/ChatComponent/ChatComponent'
 
 const ChatComponent = () => {
+  const [successfullySent, setSuccessfullySent] = useState(false)
+  const [error, setError] = useState(false)
   const service = new Users()
 
   const formik = useFormik({
@@ -34,10 +36,21 @@ const ChatComponent = () => {
       email: '',
       phone: ''
     },
-    onSubmit: values => {
+    onSubmit: async values => {
       const preparedData = service.prepareUserData(values)
       const safeData = safeHTML(preparedData)
-      service.postUser(safeData)
+      try {
+        await service.postUser(safeData)
+      } catch (err) {
+        setError(true)
+        window.scroll({
+          top: 100,
+          right: 100,
+          behavior: 'smooth'
+        })
+        return
+      }
+      setSuccessfullySent(true)
       console.log('send data', safeData)
     },
     validationSchema: Yup.object({
@@ -53,37 +66,50 @@ const ChatComponent = () => {
     })
   })
 
-  return (
-    <>
-      <Form onSubmit={formik.handleChange}>
-        <FormComponent dataSection='¿Cuál es tu nombre?' inputs={personalData} type='name' formikConfig={formik} errors={formik.erorrs} />
-        {formik.values.name && formik.values.paternalSurname && formik.values.maternalSurname &&
-          <PreviewInfo>{`${formik.values.name} ${formik.values.secondName} ${formik.values.paternalSurname} ${formik.values.maternalSurname}`}</PreviewInfo>}
+  if (!successfullySent || error) {
+    return (
+      <>
+        <Form onSubmit={formik.handleChange}>
+          {error &&
+            <DbErrorMessage>
+              <p>Ha ocurrido un error al enviar los datos :(, inténtelo de nuevo</p>
+            </DbErrorMessage>}
 
-        <FormComponent dataSection='¿Cuál es tu fecha de nacimiento?' inputs={dateOfBirth} type='date' formikConfig={formik} />
-        {formik.values.day && formik.values.month && formik.values.year &&
-          <PreviewInfo>{`${formik.values.day} de ${months[formik.values.month]} de ${formik.values.year}`}</PreviewInfo>}
+          <FormComponent dataSection='¿Cuál es tu nombre?' inputs={personalData} formikConfig={formik} errors={formik.erorrs} />
+          {formik.values.name && formik.values.paternalSurname && formik.values.maternalSurname &&
+            <PreviewInfo>{`${formik.values.name} ${formik.values.secondName} ${formik.values.paternalSurname} ${formik.values.maternalSurname}`}</PreviewInfo>}
 
-        <FormComponent dataSection='Datos de Contacto' inputs={contactData} type='contact' formikConfig={formik} />
-        {formik.values.email && formik.values.phone &&
-          <PreviewInfo>{`${formik.values.email} ${formik.values.phone}`}</PreviewInfo>}
+          <FormComponent dataSection='¿Cuál es tu fecha de nacimiento?' inputs={dateOfBirth} formikConfig={formik} />
+          {formik.values.day && formik.values.month && formik.values.year &&
+            <PreviewInfo>{`${formik.values.day} de ${months[formik.values.month]} de ${formik.values.year}`}</PreviewInfo>}
 
-        {Object.keys(formik.errors).length === 0 &&
-          <ConfirmPreview>Si tus datos son correctos por favor continuemos</ConfirmPreview>}
+          <FormComponent dataSection='Datos de Contacto' inputs={contactData} formikConfig={formik} />
+          {formik.values.email && formik.values.phone &&
+            <PreviewInfo>{`${formik.values.email} ${formik.values.phone}`}</PreviewInfo>}
 
-        <FormBtn type='submit' formikConfig={formik} />
+          {Object.keys(formik.errors).length === 0 && formik.values.name &&
+            <ConfirmPreview>Si tus datos son correctos por favor continuemos</ConfirmPreview>}
 
-        {Object.keys(formik.errors).length === 0 && formik.values.name &&
-          <CompleteInfo>
-            <p>{` Fecha de Nacimiento: ${formik.values.day} de ${months[formik.values.month]} de ${formik.values.year}`}</p>
-            <p>{`Correo Electrónico: ${formik.values.email}`}</p>
-            <p>{`Teléfono Celular: ${formik.values.phone}`}</p>
-            <p>{`Nombre: ${formik.values.name} ${formik.values.secondName} ${formik.values.paternalSurname} ${formik.values.maternalSurname}`}</p>
-          </CompleteInfo>}
-      </Form>
-    </>
+          <FormBtn type='submit' formikConfig={formik} />
 
-  )
+          {Object.keys(formik.errors).length === 0 && formik.values.name &&
+            <CompleteInfo>
+              <p>{` Fecha de Nacimiento: ${formik.values.day} de ${months[formik.values.month]} de ${formik.values.year}`}</p>
+              <p>{`Correo Electrónico: ${formik.values.email}`}</p>
+              <p>{`Teléfono Celular: ${formik.values.phone}`}</p>
+              <p>{`Nombre: ${formik.values.name} ${formik.values.secondName} ${formik.values.paternalSurname} ${formik.values.maternalSurname}`}</p>
+            </CompleteInfo>}
+
+          <FormComponent dataSection='Tu registro ha sido exitoso :D' />
+
+        </Form>
+      </>
+    )
+  } else {
+    return (
+      <FormComponent dataSection='Registro Exitoso' />
+    )
+  }
 }
 
 export { ChatComponent }

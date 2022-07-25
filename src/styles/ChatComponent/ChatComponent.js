@@ -17,6 +17,10 @@ export const PreviewInfo = styled.p`
   background:  #f074dc;
   border-radius: 5px;
   padding: 10px;
+
+  @media (min-width: 600px) {
+    max-width: 415px;
+  }
 `
 export const ConfirmPreview = styled.p`
   display: flex;
@@ -28,6 +32,10 @@ export const ConfirmPreview = styled.p`
   background:  #f0f0f0;
   border-radius: 5px;
   padding: 10px;
+
+  @media (min-width: 600px) {
+    max-width: 415px;
+  }
 `
 
 export const CompleteInfo = styled.div`
@@ -41,11 +49,31 @@ export const CompleteInfo = styled.div`
   border-radius: 5px;
   padding: 10px;
   gap: 10px;
+
+  @media (min-width: 600px) {
+    max-width: 415px;
+  }
   
   & p {
     width: 100%;
     display: flex;
     justify-content: flex-start;
     font-size: 1.5rem;
+  }
+`
+
+export const DbErrorMessage = styled.div`
+  width: 100%;
+  margin: 10px 25px 0 0;
+
+  @media (min-width: 600px) {
+    max-width: 415px;
+  }
+
+
+  & p{
+    font-size: 2.5rem;
+    color: red;
+    text-align: end;
   }
 `
