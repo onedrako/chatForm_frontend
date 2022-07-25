@@ -1,7 +1,6 @@
 const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
-const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   entry: './src/index.js',
@@ -21,10 +20,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-          plugins: [
-            new Dotenv({})
-          ]
+          loader: 'babel-loader'
         }
       },
       {
