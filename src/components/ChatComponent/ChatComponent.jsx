@@ -2,6 +2,7 @@ import { useFormik } from 'formik'
 import React from 'react'
 import * as Yup from 'yup'
 import { StyledForm } from '../../styles/ChatComponent/ChatComponent'
+import { calculateDays } from '../../utils/calculateDays'
 import { FormBtn } from './FormBtn'
 import { FormComponent } from './FormComponent'
 
@@ -41,9 +42,9 @@ const ChatComponent = () => {
       maternalSurname: Yup.string().required('El apellido materno es requerido'),
       year: Yup.number().required('El año es requerido').min(1900, 'El año debe ser mayor a 1900').max(2022, 'El año debe ser menor a 2022'),
       month: Yup.number().required('El mes es requerido').min(1).max(12),
-      day: Yup.number().required('El dia es requerido').min(1).max(31),
+      day: Yup.number().required('El dia es requerido').min(1, 'Elige un dia valido').max(31, 'Elige un dia valido').test('day', 'Elige un dia valido', value => value <= calculateDays(formik.values.month, formik.values.year)),
       email: Yup.string().required('El correo electrónico es requerido').email('El correo electrónico no es válido'),
-      phone: Yup.number().required('El teléfono celular es requerido')
+      phone: Yup.number().test('len', 'Ingresa un número de teléfono valido (10 dígitos)', val => val && val.toString().length === 10)
     })
   })
 
