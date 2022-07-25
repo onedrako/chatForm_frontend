@@ -49,6 +49,8 @@ const ChatComponent = () => {
     })
   })
 
+  console.log(process.env.API_URL)
+
   return (
     <>
       <Form onSubmit={formik.handleChange}>
