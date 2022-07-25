@@ -7,6 +7,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     font-size: 62.5%;
     font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
   }
 `
 export { GlobalStyles }

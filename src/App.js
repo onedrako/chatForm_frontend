@@ -5,8 +5,6 @@ import { Routes, Route } from 'react-router-dom'
 import { HomeComponent } from './components/HomeComponent'
 import HeaderComponent from './components/Header/HeaderComponent.jsx'
 
-console.log(process.env.REACT_APP_API_URL)
-
 const App = () => {
   return (
     <>

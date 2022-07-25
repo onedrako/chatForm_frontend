@@ -21,7 +21,10 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          plugins: [
+            new Dotenv({})
+          ]
         }
       },
       {
@@ -36,7 +39,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new Dotenv(),
     new HTMLWebpackPlugin({
       template: './public/index.html',
       filename: './index.html'

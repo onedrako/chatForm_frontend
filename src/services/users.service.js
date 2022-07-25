@@ -1,11 +1,8 @@
 import axios from 'axios'
-// import config from '../../config'
-
-// const apiUrl = config.apiUrl
 
 class Users {
   async postUser (data) {
-    await axios.post('http://localhost:3000/api/v1/users/', data)
+    await axios.post('https://shrouded-hamlet-36571.herokuapp.com/api/v1/users', data)
   }
 
   prepareUserData (data) {
